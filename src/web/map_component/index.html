@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    html, body, #map { height: 500px; margin: 0; }
+    #map { position: relative; overflow: hidden; border-radius: 0.5rem; background: #e7ecef; }
+    .leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow,
+    .leaflet-tile-container, .leaflet-pane > svg, .leaflet-pane > canvas,
+    .leaflet-zoom-box, .leaflet-image-layer, .leaflet-layer {
+      position: absolute; left: 0; top: 0;
+    }
+    .leaflet-container { overflow: hidden; -webkit-tap-highlight-color: transparent; }
+    .leaflet-container .leaflet-overlay-pane svg,
+    .leaflet-container .leaflet-marker-pane img,
+    .leaflet-container .leaflet-shadow-pane img,
+    .leaflet-container .leaflet-tile-pane img,
+    .leaflet-container img.leaflet-image-layer,
+    .leaflet-container .leaflet-tile { max-width: none !important; max-height: none !important; }
+    .leaflet-tile { visibility: hidden; }
+    .leaflet-tile-loaded { visibility: inherit; }
+    .leaflet-zoom-animated { transform-origin: 0 0; }
+    .leaflet-pane { z-index: 400; }
+    .leaflet-tile-pane { z-index: 200; }
+    .leaflet-overlay-pane { z-index: 400; }
+    .leaflet-shadow-pane { z-index: 500; }
+    .leaflet-marker-pane { z-index: 600; }
+    .leaflet-tooltip-pane { z-index: 650; }
+    .leaflet-popup-pane { z-index: 700; }
+    .leaflet-interactive { cursor: pointer; }
+    .otter-choice { display: block; margin: 0.25rem 0; border: 0;
+                    background: none; color: #4b8b8b; cursor: pointer;
+                    padding: 0; text-decoration: underline; }
+    a { color: #4b8b8b; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    const send = (type, extra = {}) => window.parent.postMessage({
+      isStreamlitMessage: true, type, ...extra
+    }, '*');
+    const setValue = (individualId) => send('streamlit:setComponentValue', {
+      value: { otter_id: individualId, nonce: Date.now() }, dataType: 'json'
+    });
+    const escapeHtml = (value) => String(value)
+      .replaceAll('&', '&amp;').replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;').replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+
+    const applyJitter = (pts) => {
+      const baseRadius = 0.00035;
+      const keyMap = new Map();
+      pts.forEach((pt) => {
+        const key = `${pt.latitude.toFixed(5)},${pt.longitude.toFixed(5)}`;
+        if (!keyMap.has(key)) keyMap.set(key, []);
+        keyMap.get(key).push(pt);
+      });
+      const result = [];
+      keyMap.forEach((group) => {
+        if (group.length === 1) {
+          result.push(group[0]);
+        } else {
+          group.forEach((pt, idx) => {
+            const ring = Math.floor(idx / 6);
+            const posInRing = idx % 6;
+            const ptsInThisRing = Math.min(6, group.length - ring * 6);
+            const radius = baseRadius * (1 + ring * 0.7);
+            const angle = (2 * Math.PI * posInRing) / ptsInThisRing + (ring * Math.PI / 6);
+            const cosLat = Math.cos((pt.latitude * Math.PI) / 180);
+            const scaleLon = Math.abs(cosLat) > 0.0001 ? 1 / cosLat : 1;
+            const jitterLat = pt.latitude + radius * Math.cos(angle);
+            const jitterLon = pt.longitude + radius * Math.sin(angle) * scaleLon;
+            result.push({
+              ...pt,
+              latitude: jitterLat,
+              longitude: jitterLon
+            });
+          });
+        }
+      });
+      return result;
+    };
+
+    let map;
+    const renderMap = (args) => {
+      if (map) map.remove();
+      const points = applyJitter(args.points || []);
+      map = L.map('map', {
+        preferCanvas: false, zoomAnimation: false,
+        fadeAnimation: false, markerZoomAnimation: false
+      });
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19, attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+      const markers = points.map((point) => {
+        const marker = L.circleMarker([point.latitude, point.longitude], {
+          radius: 8, color: '#ffffff', weight: 2,
+          fillColor: '#198287', fillOpacity: 0.9
+        }).addTo(map);
+        marker.bindTooltip(
+          `<b>${escapeHtml(point.title)}</b><br>${escapeHtml(point.detail)}`
+        );
+        if (point.otter_ids.length === 1) {
+          marker.on('click', () => setValue(point.otter_ids[0]));
+        } else if (point.otter_ids.length > 1) {
+          const chooser = document.createElement('div');
+          const title = document.createElement('b');
+          title.textContent = 'View otter';
+          chooser.appendChild(title);
+          point.otter_ids.forEach((individualId) => {
+            const button = document.createElement('button');
+            button.className = 'otter-choice';
+            button.textContent = individualId;
+            button.addEventListener('click', () => setValue(individualId));
+            chooser.appendChild(button);
+          });
+          marker.bindPopup(chooser);
+        }
+        return marker;
+      });
+      if (markers.length) {
+        const bounds = L.featureGroup(markers).getBounds();
+        const center = bounds.getCenter();
+        const sideMiles = Math.sqrt(args.minimum_area_square_miles || 10);
+        const latHalf = sideMiles / (2 * 69.0);
+        const lonMilesPerDegree = Math.max(
+          1.0, 69.0 * Math.cos(center.lat * Math.PI / 180)
+        );
+        const lonHalf = sideMiles / (2 * lonMilesPerDegree);
+        bounds.extend([center.lat - latHalf, center.lng - lonHalf]);
+        bounds.extend([center.lat + latHalf, center.lng + lonHalf]);
+        map.fitBounds(bounds, { padding: [24, 24] });
+      }
+      setTimeout(() => map.invalidateSize({ pan: false }), 100);
+      send('streamlit:setFrameHeight', { height: 500 });
+    };
+
+    window.addEventListener('message', (event) => {
+      if (event.data?.type === 'streamlit:render') renderMap(event.data.args);
+    });
+    send('streamlit:componentReady', { apiVersion: 1 });
+    send('streamlit:setFrameHeight', { height: 500 });
+  </script>
+</body>
+</html>

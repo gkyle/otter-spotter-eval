@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    html, body, #map { height: 320px; margin: 0; }
+    #map { position: relative; overflow: hidden; border-radius: 0.5rem;
+           background: #e7ecef; cursor: crosshair; }
+    .leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow,
+    .leaflet-tile-container, .leaflet-pane > svg, .leaflet-pane > canvas,
+    .leaflet-zoom-box, .leaflet-image-layer, .leaflet-layer {
+      position: absolute; left: 0; top: 0;
+    }
+    .leaflet-container { overflow: hidden; -webkit-tap-highlight-color: transparent; }
+    .leaflet-container .leaflet-overlay-pane svg,
+    .leaflet-container .leaflet-marker-pane img,
+    .leaflet-container .leaflet-shadow-pane img,
+    .leaflet-container .leaflet-tile-pane img,
+    .leaflet-container img.leaflet-image-layer,
+    .leaflet-container .leaflet-tile { max-width: none !important; max-height: none !important; }
+    .leaflet-tile { visibility: hidden; }
+    .leaflet-tile-loaded { visibility: inherit; }
+    .leaflet-zoom-animated { transform-origin: 0 0; }
+    .leaflet-pane { z-index: 400; }
+    .leaflet-tile-pane { z-index: 200; }
+    .leaflet-overlay-pane { z-index: 400; }
+    .leaflet-shadow-pane { z-index: 500; }
+    .leaflet-marker-pane { z-index: 600; }
+    .leaflet-control { position: relative; z-index: 800; pointer-events: auto; }
+    .leaflet-top, .leaflet-bottom { position: absolute; z-index: 1000; pointer-events: none; }
+    .leaflet-top { top: 0; } .leaflet-right { right: 0; }
+    .leaflet-bottom { bottom: 0; } .leaflet-left { left: 0; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    const send = (type, extra = {}) => window.parent.postMessage({
+      isStreamlitMessage: true, type, ...extra
+    }, '*');
+    const setValue = (lat, lng) => send('streamlit:setComponentValue', {
+      value: { latitude: lat, longitude: lng, nonce: Date.now() }, dataType: 'json'
+    });
+
+    let map;
+    let marker;
+    let rendered = false;
+
+    const renderMap = (args) => {
+      const centerLat = args.latitude ?? 0;
+      const centerLng = args.longitude ?? 0;
+      const zoom = args.latitude != null ? 12 : 2;
+      if (rendered) return; // Only initialize once; clicks drive updates after that.
+      rendered = true;
+      map = L.map('map', {
+        preferCanvas: false, zoomAnimation: false,
+        fadeAnimation: false, markerZoomAnimation: false
+      }).setView([centerLat, centerLng], zoom);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19, attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+      if (args.latitude != null && args.longitude != null) {
+        marker = L.marker([args.latitude, args.longitude]).addTo(map);
+      }
+      map.on('click', (event) => {
+        const { lat, lng } = event.latlng;
+        if (marker) {
+          marker.setLatLng([lat, lng]);
+        } else {
+          marker = L.marker([lat, lng]).addTo(map);
+        }
+        setValue(lat, lng);
+      });
+      setTimeout(() => map.invalidateSize({ pan: false }), 100);
+      send('streamlit:setFrameHeight', { height: 320 });
+    };
+
+    window.addEventListener('message', (event) => {
+      if (event.data?.type === 'streamlit:render') renderMap(event.data.args);
+    });
+    send('streamlit:componentReady', { apiVersion: 1 });
+    send('streamlit:setFrameHeight', { height: 320 });
+  </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+[project]
+name = "otter-spotter-eval"
+version = "0.1.0"
+description = "Wildlife re-identification for Giant River Otters"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "torch>=2.2",
+    "torchvision>=0.17",
+    "transformers>=4.40,<5",
+    "timm>=0.9",
+    "safetensors>=0.4",
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "pillow>=10.0",
+    "scikit-learn>=1.4",
+    "matplotlib>=3.8",
+    "umap-learn>=0.5",
+    "streamlit>=1.33,<=1.60.0",
+    "streamlit-drawable-canvas==0.9.3",
+    "pillow-heif>=1.5.0",
+    "authlib>=1.3.2",
+    "python-dotenv>=1.0",
+    "opencv-python>=4.9,<5",
+    "ultralytics>=8.3,<9",
+]
+
+[tool.uv]
+# huggingface_hub 1.x drops APIs the model's remote code relies on; keep 0.x.
+# Pin numba/llvmlite to versions that ship 3.12 wheels (umap-learn transitive).
+override-dependencies = [
+    "huggingface-hub>=0.30,<1",
+    "numba>=0.60",
+    "llvmlite>=0.43",
+]
