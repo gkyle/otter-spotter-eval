@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1320"
+   height="420"
+   viewBox="0 0 1320 420"
+   version="1.1"
+   id="svg132"
+   sodipodi:docname="pipeline.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs136" />
+  <sodipodi:namedview
+     id="namedview134"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.7041273"
+     inkscape:cx="613.80389"
+     inkscape:cy="406.07294"
+     inkscape:window-width="3840"
+     inkscape:window-height="2012"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg132" />
+  <title
+     id="title2">Otter Spotter identification pipeline</title>
+  <desc
+     id="desc4">A field photograph passes through detection, throat cropping, embedding, and catalog search. Location supplies a second similarity signal. The signals are fused into ranked candidates for human review.</desc>
+  <rect
+     style="fill:#ffffff;fill-opacity:1;stroke-width:0.999832"
+     id="rect3969"
+     width="1399.9667"
+     height="559.94983"
+     x="-41.149307"
+     y="-115.36351" />
+  <text
+     x="18.822399"
+     y="29.609196"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     fill="#176b87"
+     id="text12">VISUAL EVIDENCE</text>
+  <!-- Field photograph -->
+  <rect
+     x="18.822399"
+     y="54.609196"
+     width="220"
+     height="120"
+     rx="10"
+     fill="#eef7fa"
+     stroke="#176b87"
+     stroke-width="2"
+     id="rect14" />
+  <text
+     x="38.822399"
+     y="97.609192"
+     font-family="Arial, sans-serif"
+     font-size="20px"
+     font-weight="bold"
+     fill="#17324d"
+     id="text16"
+     style="font-size:18.6667px">Field photograph</text>
+  <text
+     x="38.822399"
+     y="128.60919"
+     font-family="Arial, sans-serif"
+     font-size="15px"
+     fill="#536b7a"
+     id="text18"><tspan
+       sodipodi:role="line"
+       id="tspan555"
+       x="38.822399"
+       y="128.60919">Image from an encounter</tspan></text>
+  <!-- Arrow 1 -->
+  <line
+     x1="238.8224"
+     y1="114.60919"
+     x2="276.82239"
+     y2="114.60919"
+     stroke="#536b7a"
+     stroke-width="3"
+     id="line22" />
+  <polygon
+     points="332,230 318,238 318,222 "
+     fill="#536b7a"
+     id="polygon24"
+     transform="translate(-41.177601,-115.3908)" />
+  <!-- Detector -->
+  <rect
+     x="290.82239"
+     y="54.609196"
+     width="220"
+     height="120"
+     rx="10"
+     fill="#eef7fa"
+     stroke="#176b87"
+     stroke-width="2"
+     id="rect26" />
+  <text
+     x="310.82239"
+     y="97.609192"
+     font-family="Arial, sans-serif"
+     font-size="20px"
+     font-weight="bold"
+     fill="#17324d"
+     id="text28"
+     style="font-size:18.6667px">YOLO detector</text>
+  <text
+     x="310.82239"
+     y="128.60919"
+     font-family="Arial, sans-serif"
+     font-size="15px"
+     fill="#536b7a"
+     id="text30">Find body and throat regions</text>
+  <!-- Arrow 2 -->
+  <line
+     x1="510.82239"
+     y1="114.60919"
+     x2="548.82239"
+     y2="114.60919"
+     stroke="#536b7a"
+     stroke-width="3"
+     id="line34" />
+  <polygon
+     points="604,230 590,238 590,222 "
+     fill="#536b7a"
+     id="polygon36"
+     transform="translate(-41.177601,-115.3908)" />
+  <!-- Throat crop -->
+  <rect
+     x="562.82239"
+     y="54.609196"
+     width="220"
+     height="120"
+     rx="10"
+     fill="#eef8f6"
+     stroke="#159a9c"
+     stroke-width="2"
+     id="rect38" />
+  <text
+     x="582.82239"
+     y="97.609192"
+     font-family="Arial, sans-serif"
+     font-size="20px"
+     font-weight="bold"
+     fill="#17324d"
+     id="text40"
+     style="font-size:18.6667px">Throat portrait</text>
+  <text
+     x="582.82239"
+     y="128.60919"
+     font-family="Arial, sans-serif"
+     font-size="15px"
+     fill="#536b7a"
+     id="text42">Crop the identifying</text>
+  <text
+     x="582.82239"
+     y="151.60919"
+     font-family="Arial, sans-serif"
+     font-size="15px"
+     fill="#536b7a"
+     id="text44">throat pattern</text>
+  <!-- Arrow 3 -->
+  <line
+     x1="782.82239"
+     y1="114.60919"
+     x2="820.82239"
+     y2="114.60919"
+     stroke="#536b7a"
+     stroke-width="3"
+     id="line46" />
+  <polygon
+     points="876,230 862,238 862,222 "
+     fill="#536b7a"
+     id="polygon48"
+     transform="translate(-41.177601,-115.3908)" />
+  <!-- Embedding -->
+  <rect
+     x="834.82239"
+     y="54.609196"
+     width="220"
+     height="120"
+     rx="10"
+     fill="#eef8f6"
+     stroke="#159a9c"
+     stroke-width="2"
+     id="rect50" />
+  <text
+     x="854.82239"
+     y="91.609192"
+     font-family="Arial, sans-serif"
+     font-size="20px"
+     font-weight="bold"
+     fill="#17324d"
+     id="text52"
+     style="font-size:18.6667px">Fine-tuned MiewID</text>
+  <text
+     x="854.82239"
+     y="116.60919"
+     font-family="Arial, sans-serif"
+     font-size="20px"
+     font-weight="bold"
+     fill="#17324d"
+     id="text54"
+     style="font-size:18.6667px">embedding</text>
+  <text
+     x="854.82239"
+     y="147.60919"
+     font-family="Arial, sans-serif"
+     font-size="15px"
+     fill="#536b7a"
+     id="text56">Encode visual identity</text>
+  <!-- Arrow 4 -->
+  <line
+     x1="1054.8224"
+     y1="114.60919"
+     x2="1092.8224"
+     y2="114.60919"
+     stroke="#536b7a"
+     stroke-width="3"
+     id="line58" />
+  <polygon
+     points="1148,230 1134,238 1134,222 "
+     fill="#536b7a"
+     id="polygon60"
+     transform="translate(-41.177601,-115.3908)" />
+  <!-- Catalog search -->
+  <rect
+     x="1106.8224"
+     y="54.609196"
+     width="192"
+     height="120"
+     rx="10"
+     fill="#eef8f6"
+     stroke="#159a9c"
+     stroke-width="2"
+     id="rect62" />
+  <text
+     x="1126.8224"
+     y="97.609192"
+     font-family="Arial, sans-serif"
+     font-size="20px"
+     font-weight="bold"
+     fill="#17324d"
+     id="text64"
+     style="font-size:18.6667px">Catalog search</text>
+  <text
+     x="1126.8224"
+     y="128.60919"
+     font-family="Arial, sans-serif"
+     font-size="15px"
+     fill="#536b7a"
+     id="text66">Find visually similar</text>
+  <text
+     x="1126.8224"
+     y="151.60919"
+     font-family="Arial, sans-serif"
+     font-size="15px"
+     fill="#536b7a"
+     id="text68">known otters</text>
+  <text
+     x="18.822399"
+     y="249.60919"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     fill="#c87513"
+     id="text70">GEOGRAPHIC CONTEXT</text>
+  <!-- Location -->
+  <rect
+     x="18.822399"
+     y="274.60919"
+     width="220"
+     height="120"
+     rx="10"
+     fill="#fff6e8"
+     stroke="#d98a1c"
+     stroke-width="2"
+     id="rect72" />
+  <text
+     x="38.822399"
+     y="317.60919"
+     font-family="Arial, sans-serif"
+     font-size="20px"
+     font-weight="bold"
+     fill="#17324d"
+     id="text74"
+     style="font-size:18.6667px">Observation location</text>
+  <text
+     x="38.822399"
+     y="348.60919"
+     font-family="Arial, sans-serif"
+     font-size="15px"
+     fill="#536b7a"
+     id="text76">Geographic metadata</text>
+  <text
+     x="38.822399"
+     y="371.60919"
+     font-family="Arial, sans-serif"
+     font-size="15px"
+     fill="#536b7a"
+     id="text78">for the encounter</text>
+  <!-- Arrow 5 -->
+  <line
+     x1="238.8224"
+     y1="334.60919"
+     x2="276.82239"
+     y2="334.60919"
+     stroke="#536b7a"
+     stroke-width="3"
+     id="line80" />
+  <polygon
+     points="332,450 318,458 318,442 "
+     fill="#536b7a"
+     id="polygon82"
+     transform="translate(-41.177601,-115.3908)" />
+  <!-- Location similarity -->
+  <rect
+     x="290.82239"
+     y="274.60919"
+     width="220"
+     height="120"
+     rx="10"
+     fill="#fff6e8"
+     stroke="#d98a1c"
+     stroke-width="2"
+     id="rect84" />
+  <text
+     x="310.82239"
+     y="317.60919"
+     font-family="Arial, sans-serif"
+     font-size="20px"
+     font-weight="bold"
+     fill="#17324d"
+     id="text86"
+     style="font-size:18.6667px">Location similarity</text>
+  <text
+     x="310.82239"
+     y="348.60919"
+     font-family="Arial, sans-serif"
+     font-size="15px"
+     fill="#536b7a"
+     id="text88">Score geographic</text>
+  <text
+     x="310.82239"
+     y="371.60919"
+     font-family="Arial, sans-serif"
+     font-size="15px"
+     fill="#536b7a"
+     id="text90">proximity</text>
+  <!-- Geographic arrow to fusion -->
+  <line
+     x1="510.82239"
+     y1="334.60919"
+     x2="734.76331"
+     y2="334.60919"
+     stroke="#536b7a"
+     stroke-width="3.69026"
+     id="line92" />
+  <polygon
+     points="700,458 700,442 714,450 "
+     fill="#536b7a"
+     id="polygon94"
+     transform="translate(34.822399,-115.3908)" />
+  <!-- Visual arrow to fusion -->
+  <line
+     x1="1202.8224"
+     y1="174.60919"
+     x2="1202.8224"
+     y2="214.60919"
+     stroke="#536b7a"
+     stroke-width="3"
+     id="line96" />
+  <line
+     x1="1202.8224"
+     y1="214.60919"
+     x2="875.37909"
+     y2="214.60919"
+     stroke="#536b7a"
+     stroke-width="2.681"
+     id="line98" />
+  <line
+     x1="876.82239"
+     y1="213.28091"
+     x2="876.82239"
+     y2="261.31061"
+     stroke="#536b7a"
+     stroke-width="3.06548"
+     id="line100" />
+  <polygon
+     points="842,376 826,376 834,390 "
+     fill="#536b7a"
+     id="polygon102"
+     transform="translate(42.822399,-115.3908)" />
+  <text
+     x="968.82239"
+     y="203.60919"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     fill="#536b7a"
+     id="text104">visual similarity</text>
+  <!-- Fused ranking -->
+  <rect
+     x="748.82239"
+     y="274.60919"
+     width="250"
+     height="120"
+     rx="10"
+     fill="#7451b9"
+     stroke="#5e3a9e"
+     stroke-width="2"
+     id="rect106" />
+  <text
+     x="768.82239"
+     y="317.60919"
+     font-family="Arial, sans-serif"
+     font-size="20px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text108"
+     style="font-size:18.6667px">Fused ranking</text>
+  <text
+     x="768.82239"
+     y="348.60919"
+     font-family="Arial, sans-serif"
+     font-size="15px"
+     fill="#ffffff"
+     id="text110">90% visual + 10% location</text>
+  <text
+     x="768.82239"
+     y="371.60919"
+     font-family="Arial, sans-serif"
+     font-size="15px"
+     fill="#ffffff"
+     id="text112">Ranked candidate identities</text>
+  <!-- Arrow 6 -->
+  <line
+     x1="998.82239"
+     y1="334.60919"
+     x2="1037.384"
+     y2="334.60919"
+     stroke="#536b7a"
+     stroke-width="3.02209"
+     id="line114" />
+  <polygon
+     points="1002,458 1002,442 1016,450 "
+     fill="#536b7a"
+     id="polygon116"
+     transform="translate(34.822399,-115.3908)" />
+  <!-- Human review -->
+  <rect
+     x="1053.0349"
+     y="274.74335"
+     width="249.99028"
+     height="120.24145"
+     rx="7.7157493"
+     fill="#168b91"
+     stroke="#107176"
+     stroke-width="1.75855"
+     id="rect118" />
+  <text
+     x="1070.8224"
+     y="317.60919"
+     font-family="Arial, sans-serif"
+     font-size="20px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text120"
+     style="font-size:18.6667px">Human review</text>
+  <text
+     x="1070.8224"
+     y="348.60919"
+     font-family="Arial, sans-serif"
+     font-size="15px"
+     fill="#ffffff"
+     id="text122">Confirm, reject, or flag as</text>
+  <text
+     x="1070.8224"
+     y="371.60919"
+     font-family="Arial, sans-serif"
+     font-size="15px"
+     fill="#ffffff"
+     id="text124">a possible unknown individual</text>
+  <metadata
+     id="metadata360">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>Otter Spotter identification pipeline</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

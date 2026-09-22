@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="margin:0;overflow:hidden">
+<script>
+  const send = (type, extra = {}) => window.parent.postMessage({
+    isStreamlitMessage: true, type, ...extra
+  }, '*');
+  let lastWidth = 0;
+  let timer;
+  const reportWidth = () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      const width = Math.floor(window.innerWidth);
+      if (width > 0 && width !== lastWidth) {
+        lastWidth = width;
+        send('streamlit:setComponentValue', { value: width, dataType: 'json' });
+      }
+      send('streamlit:setFrameHeight', { height: 0 });
+    }, 50);
+  };
+  window.addEventListener('resize', reportWidth);
+  window.addEventListener('message', (event) => {
+    if (event.data?.type === 'streamlit:render') reportWidth();
+  });
+  send('streamlit:componentReady', { apiVersion: 1 });
+  reportWidth();
+</script>
+</body>
+</html>

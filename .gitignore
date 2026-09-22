@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.env
+*.py.orig
+
+# IDE
+.agents/skills/
+
+# Secrets
+.streamlit/secrets.toml
+
+# Data artifacts
+data/crops/
+data/detector/
+data/embeddings/
+data/eval/
+data/models/
+data/sources/flickr/detector/
+data/sources/flickr/images/
+data/sources/flickr/metadata/
+data/sources/inat/images/
+data/sources/upload/batch/
+data/sources/upload/images/
+data/sources/upload/sessions/
+data/sources/wikimedia/images/
+
+# Model artifacts
+.cache/
+runs/
+*.npy
+*.npz
+*.pt
+
+
